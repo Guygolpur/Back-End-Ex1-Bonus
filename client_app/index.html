@@ -1,42 +1,79 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title>Guy Golpur</title>
+        <title>get data page</title>
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     </head>
     <body>
-        <h1>resuklt:</h1>
-        <form method="post">
-            <table align="center">
-                <tr>
-                    <td><strong><?php echo $result; ?><strong></td>
-                </tr>
-                <tr>
-                    <td>Enter 1st Number</td>
-                    <td><input type="text" name="n1"></td>
-                </tr>
-            
-                <tr>
-                    <td>Enter 2nd Number</td>
-                    <td><input type="text" name="n2"></td>
-                </tr>
-            
-                <tr>
-                    <td>Select Oprator</td>
-                    <td><select name="op">
-                        <option value="+">+</option>
-                        <option value="-">-</option>
-                        <option value="*">*</option>
-                        <option value="/">/</option>
-                    </select></td>
-                </tr>
-            
-                <tr>
-                    <td></td>
-                    <td><input type="submit" name="submit" value="                =                "></td>
-                </tr>
-            
-            </table>
-        </form>
+            <section class="result">Result: </section>
+            <input type="button" id="btnClick" value="POST" onclick="CountFunPost()"><br>
+            <input type="button" id="btnClick" value="GET" onclick="CountFunGet()"><br>
+            <input type="button" id="btnClick" value="PUT" onclick="CountFunPut()"><br>
+
+            <div id="showCount"></div> <!-- print which button -->
+
+        <script>
+        //Post:
+            var cntPost=0;
+            function CountFunPost(){
+                cntPost = cntPost + 1;
+                var divData=document.getElementById("showCount");
+                divData.innerHTML="Post";
+                
+                (function () {
+                        if (cntPost > 0) {
+                            $.post("../service_calculator/phpDoc.php",
+                            {op:"avg",num1:10,num2:15,num3:20},
+                            function( data ) {
+                                $(".result").append(data.retVal + " ");
+                                console.log( "Return data: " + data.retVal);
+                            });
+                        }
+                })();
+
+            }
+
+        //GET:
+            var cntGet=0;
+            function CountFunGet(){
+                cntGet = cntGet + 1;
+                var divData=document.getElementById("showCount");
+                divData.innerHTML="Get";
+                (function () {
+                    if (cntGet > 0) {
+                        $.get("../service_calculator/phpDoc.php?op=avg&num1=2&num2=4&num3=6",
+                            function(data){
+                                $(".result").append(data.retVal);
+                                console.log("Return data: " + data.retVal);
+                            });
+                    }
+                })();
+            }
+        //PUT:
+            var cntPut=0;
+            function CountFunPut(){
+                cntPut = cntPut + 1;
+                var divData=document.getElementById("showCount");
+                divData.innerHTML="Put";
+                (function () {
+                    if (cntPut > 0) {
+                        var dataObj = {'op':"sum",'num1':1,'num2':2,'num3':0};
+                        $.ajax({
+                            url: "../service_calculator/phpDoc.php",
+                            data:dataObj,
+                            type: 'PUT',
+                            success: function(data) {
+                                $(".result").append(data.retVal);
+                                console.log( "Return data: " + data.retVal);
+                            }
+                        });
+                    }
+                })();
+            }
+        </script>
     </body>
 </html>
