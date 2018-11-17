@@ -49,7 +49,7 @@
             $this->res = $this->num1 + $this->num2 + $this->num3;
         }
             else if($this->op == 'mul'){
-            $this->res  = ($this->num1 * $this->num2 * $this->num3)/3;
+            $this->res  = ($this->num1 * $this->num2 * $this->num3);
         }
             else if($this->op == 'avg'){
             $this->res = ($this->num1 + $this->num2 + $this->num3)/3;
